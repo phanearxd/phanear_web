@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PHANEAR — Built Different. Built to Last.</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ----- RESET & BASE ----- */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #08080c;
+            --bg-secondary: #0e0e16;
+            --bg-card: #13131e;
+            --bg-card-hover: #1a1a2a;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(255, 215, 100, 0.15);
+            --text-primary: #f1f0f0;
+            --text-secondary: #a8a8b8;
+            --text-muted: #6b6b7a;
+            --gold: #f5c84e;
+            --gold-glow: rgba(245, 200, 78, 0.25);
+            --gradient-gold: linear-gradient(135deg, #f5c84e, #d9a832);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: #0a0a0f;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ----- SCROLLBAR ----- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d9a832;
+        }
+
+        /* ----- UTILITY ----- */
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: rgba(245, 200, 78, 0.10);
+            padding: 6px 16px;
+            border-radius: 100px;
+            border: 1px solid rgba(245, 200, 78, 0.15);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4.5vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        .section-title .gold {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-sub {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin-top: 12px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gradient-gold);
+            color: #0a0a0f;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px 36px;
+            border-radius: 60px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 0 30px rgba(245, 200, 78, 0.15);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 50px rgba(245, 200, 78, 0.30);
+        }
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 14px 36px;
+            border-radius: 60px;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* ----- HEADER / NAV ----- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 0;
+            background: rgba(8, 8, 12, 0.72);
+            backdrop-filter: blur(16px) saturate(1.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-weight: 900;
+            font-size: 1.35rem;
+            letter-spacing: -0.02em;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .nav-links a {
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0%;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            background: var(--gradient-gold);
+            color: #0a0a0f;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        .nav-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(245, 200, 78, 0.25);
+        }
+        .nav-cta::after {
+            display: none !important;
+        }
+
+        /* Mobile nav toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--text-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        /* ----- HERO ----- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 140px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(245, 200, 78, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 200, 78, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245, 200, 78, 0.08);
+            border: 1px solid rgba(245, 200, 78, 0.12);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+            margin-bottom: 24px;
+        }
+        .hero-badge .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.7);
+            }
+        }
+
+        .hero-title {
+            font-size: clamp(2.6rem, 7vw, 4.8rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+        .hero-title .highlight {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-text-anim {
+            display: inline-block;
+            min-height: 1.2em;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin-top: 20px;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 36px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .hero-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .hero-stat .number {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            margin-top: 2px;
+        }
+        .hero-stat .label .infinity {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        /* Hero right — visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero-orb {
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(245, 200, 78, 0.20), rgba(245, 200, 78, 0.02) 70%);
+            border: 1px solid rgba(245, 200, 78, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: float-orb 6s ease-in-out infinite;
+        }
+        .hero-orb::after {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            border: 1px dashed rgba(245, 200, 78, 0.10);
+            animation: spin-slow 30s linear infinite;
+        }
+        @keyframes float-orb {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-18px);
+            }
+        }
+        @keyframes spin-slow {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .hero-orb-inner {
+            font-weight: 900;
+            font-size: 2.6rem;
+            letter-spacing: -0.03em;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            line-height: 1.1;
+        }
+        .hero-orb-inner small {
+            font-size: 0.8rem;
+            font-weight: 400;
+            -webkit-text-fill-color: var(--text-secondary);
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* ----- SECTION: About ----- */
+        .section-about {
+            padding: 100px 0 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+            align-items: center;
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        .about-text p+p {
+            margin-top: 20px;
+        }
+        .about-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 40px 36px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .about-card:hover {
+            border-color: rgba(245, 200, 78, 0.15);
+            background: var(--bg-card-hover);
+        }
+        .about-card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 16px;
+        }
+        .about-card h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .about-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ----- SECTION: Ecosystem (cards) ----- */
+        .section-ecosystem {
+            padding: 80px 0 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 44px;
+        }
+        .eco-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .eco-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .eco-card:hover {
+            border-color: rgba(245, 200, 78, 0.15);
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+        }
+        .eco-card:hover::before {
+            opacity: 1;
+        }
+        .eco-card .emoji {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+        .eco-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .eco-card .domain {
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .eco-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ----- SECTION: Why / Stats ----- */
+        .section-why {
+            padding: 80px 0 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--bg-secondary);
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px;
+            margin-top: 44px;
+        }
+        .why-item {
+            text-align: center;
+            padding: 28px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+        }
+        .why-item:hover {
+            border-color: rgba(245, 200, 78, 0.12);
+            transform: translateY(-4px);
+        }
+        .why-item .icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .why-item h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .why-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* ----- SECTION: Founder ----- */
+        .section-founder {
+            padding: 100px 0 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .founder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+            align-items: center;
+        }
+        .founder-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #0a0a0f;
+            box-shadow: 0 0 60px rgba(245, 200, 78, 0.10);
+            margin-bottom: 20px;
+        }
+        .founder-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .founder-role {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        .founder-bio {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 480px;
+        }
+        .founder-quote {
+            margin-top: 28px;
+            padding: 24px 32px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            border-left: 4px solid var(--gold);
+            font-size: 1.1rem;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+        .founder-quote strong {
+            color: var(--text-primary);
+            font-style: normal;
+        }
+
+        /* ----- SECTION: Vision ----- */
+        .section-vision {
+            padding: 80px 0 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--bg-secondary);
+        }
+        .vision-content {
+            max-width: 720px;
+            margin: 32px auto 0;
+            text-align: center;
+        }
+        .vision-content p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ----- SECTION: What's Next (Roadmap) ----- */
+        .section-roadmap {
+            padding: 100px 0 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-top: 44px;
+        }
+        .roadmap-item {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition);
+            position: relative;
+        }
+        .roadmap-item:hover {
+            border-color: rgba(245, 200, 78, 0.15);
+            transform: translateY(-4px);
+        }
+        .roadmap-item .step {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            text-transform: uppercase;
+            background: rgba(245, 200, 78, 0.08);
+            padding: 4px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+        .roadmap-item h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .roadmap-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .roadmap-item .status {
+            display: inline-block;
+            margin-top: 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 40px;
+            background: rgba(245, 200, 78, 0.08);
+            color: var(--gold);
+            border: 1px solid rgba(245, 200, 78, 0.10);
+        }
+
+        /* ----- CTA ----- */
+        .section-cta {
+            padding: 80px 0 100px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+            background: var(--bg-secondary);
+        }
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 48px;
+            border-radius: var(--radius);
+            background: var(--bg-card);
+            border: 1px solid rgba(245, 200, 78, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -30%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(245, 200, 78, 0.04), transparent 70%);
+            pointer-events: none;
+        }
+        .cta-box h2 {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+        .cta-box p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin: 16px 0 32px;
+            position: relative;
+        }
+        .cta-box .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* ----- FOOTER ----- */
+        .footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background: var(--bg-primary);
+        }
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 32px;
+        }
+        .footer-brand .logo {
+            font-size: 1.5rem;
+        }
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+        .footer-tagline .gold {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .footer-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.04);
+            margin: 32px 0 20px;
+        }
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .footer-bottom a {
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        .footer-bottom a:hover {
+            color: var(--gold);
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media (max-width: 992px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-desc {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .hero-visual {
+                order: -1;
+            }
+            .hero-orb {
+                width: 260px;
+                height: 260px;
+            }
+            .hero-orb-inner {
+                font-size: 2rem;
+            }
+
+            .about-grid,
+            .founder-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .founder-bio {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .founder-quote {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .founder-avatar {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 16px;
+                background: var(--bg-secondary);
+                padding: 32px 24px;
+                border-radius: var(--radius);
+                border: 1px solid var(--border-subtle);
+                position: absolute;
+                top: 70px;
+                right: 24px;
+                width: 220px;
+                backdrop-filter: blur(16px);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .footer-grid {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-tagline {
+                text-align: center;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .cta-box {
+                padding: 40px 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .hero-orb {
+                width: 200px;
+                height: 200px;
+            }
+            .hero-orb-inner {
+                font-size: 1.5rem;
+            }
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">PHANEAR</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#ecosystem">Ekosistem</a></li>
+                <li><a href="#founder">Founder</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#cta" class="nav-cta">Explore</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="dot"></span>
+                        Ecosystem · Est. 2024
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="hero-text-anim" id="heroAnim">Built Different.</span><br />
+                        <span class="highlight">Built to Last.</span>
+                    </h1>
+                    <p class="hero-desc">
+                        PHANEAR adalah rumah bagi ide, bisnis, dan inovasi yang tumbuh
+                        dalam satu ekosistem. Kami membangun masa depan melalui kreativitas,
+                        teknologi, dan keberanian untuk memulai.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#ecosystem" class="btn-primary">Jelajahi Ekosistem →</a>
+                        <a href="#about" class="btn-outline">Pelajari Lebih</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="number">04</span>
+                            <span class="label">Business Units</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number">01</span>
+                            <span class="label">Brand Ecosystem</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number"><span class="infinity">∞</span></span>
+                            <span class="label">Long-Term Vision</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-orb">
+                        <div class="hero-orb-inner">
+                            PHANEAR
+                            <small>Built to Last</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section-about" id="about">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Tentang Kami</span>
+                <h2 class="section-title">
+                    More Than Just a <span class="gold">Website</span>
+                </h2>
+                <p class="section-sub mx-auto">
+                    PHANEAR lahir dari keyakinan bahwa sebuah ide kecil dapat berkembang
+                    menjadi sesuatu yang bernilai besar.
+                </p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        PHANEAR lahir dari keyakinan bahwa sebuah ide kecil dapat berkembang
+                        menjadi sesuatu yang bernilai besar ketika dibangun dengan visi yang
+                        jelas dan eksekusi yang konsisten.
+                    </p>
+                    <p>
+                        Hari ini, PHANEAR berkembang menjadi ekosistem digital yang menaungi
+                        berbagai proyek dan unit bisnis dengan karakter, tujuan, dan pasar
+                        yang berbeda.
+                    </p>
+                </div>
+                <div class="about-card">
+                    <div class="icon">🚀</div>
+                    <h4>One Brand. Multiple Ventures.</h4>
+                    <p>
+                        Di bawah PHANEAR, setiap subdomain memiliki perannya sendiri — dari
+                        fashion hingga energi berkelanjutan, media, dan layanan digital.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ECOSYSTEM ===== -->
+    <section class="section-ecosystem" id="ecosystem">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Ekosistem</span>
+                <h2 class="section-title">
+                    One Brand. <span class="gold">Multiple Ventures.</span>
+                </h2>
+                <p class="section-sub mx-auto">
+                    Setiap subdomain memiliki karakter, tujuan, dan pasar yang berbeda.
+                </p>
+            </div>
+            <div class="ecosystem-grid">
+                <div class="eco-card">
+                    <div class="emoji">👕</div>
+                    <h4>PHANEAR Clothing</h4>
+                    <span class="domain">clothing.phanear.my.id</span>
+                    <p>Fashion bukan hanya tentang pakaian. Ini tentang identitas. Desain modern, kualitas, dan karakter.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="emoji">🪵</div>
+                    <h4>Charnesia</h4>
+                    <span class="domain">charnesia.phanear.my.id</span>
+                    <p>Menghubungkan sumber daya lokal dengan peluang global melalui perdagangan arang briket dan energi berkelanjutan.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="emoji">📰</div>
+                    <h4>Kompas</h4>
+                    <span class="domain">kompas.phanear.my.id</span>
+                    <p>Media digital yang menghadirkan informasi, cerita, dan perspektif baru untuk masyarakat modern.</p>
+                </div>
+                <div class="eco-card">
+                    <div class="emoji">🎮</div>
+                    <h4>PHANEAR TopUp</h4>
+                    <span class="domain">topup.phanear.my.id</span>
+                    <p>Platform layanan top up game dan produk digital dengan proses cepat, aman, dan mudah digunakan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY / VALUES ===== -->
+    <section class="section-why" id="why">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Why PHANEAR</span>
+                <h2 class="section-title">
+                    Dibangun untuk <span class="gold">Bertahan.</span>
+                </h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="icon">🎯</div>
+                    <h4>Berorientasi Jangka Panjang</h4>
+                    <p>Setiap keputusan dibangun untuk masa depan.</p>
+                </div>
+                <div class="why-item">
+                    <div class="icon">🏗️</div>
+                    <h4>Struktur Bisnis yang Jelas</h4>
+                    <p>Ekosistem yang terorganisir dan terukur.</p>
+                </div>
+                <div class="why-item">
+                    <div class="icon">✨</div>
+                    <h4>Fokus pada Kualitas &amp; Inovasi</h4>
+                    <p>Tak pernah puas dengan biasa saja.</p>
+                </div>
+                <div class="why-item">
+                    <div class="icon">🤝</div>
+                    <h4>Terbuka untuk Kolaborasi</h4>
+                    <p>Kami percaya pada kekuatan kerja sama.</p>
+                </div>
+                <div class="why-item">
+                    <div class="icon">🌱</div>
+                    <h4>Terus Berkembang</h4>
+                    <p>Mengikuti perubahan zaman dengan adaptif.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOUNDER ===== -->
+    <section class="section-founder" id="founder">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Founder</span>
+                <h2 class="section-title">
+                    Meet The <span class="gold">Founder</span>
+                </h2>
+            </div>
+            <div class="founder-grid">
+                <div>
+                    <div class="founder-avatar">H</div>
+                    <h3 class="founder-name">Hanif Maulana Ibrohim</h3>
+                    <div class="founder-role">Founder &amp; Visionary</div>
+                    <p class="founder-bio">
+                        PHANEAR didirikan oleh Hanif Maulana Ibrohim dengan visi membangun
+                        sebuah ekosistem yang mampu menghubungkan berbagai peluang bisnis
+                        dalam satu identitas yang kuat.
+                    </p>
+                    <p class="founder-bio" style="margin-top:12px;">
+                        Bagi Hanif, membangun bisnis bukan hanya tentang menghasilkan
+                        keuntungan, tetapi juga tentang menciptakan sesuatu yang memiliki
+                        nilai dan mampu bertahan dalam jangka panjang.
+                    </p>
+                </div>
+                <div>
+                    <div class="founder-quote">
+                        “Every great company starts with one decision: to begin.”
+                        <br /><strong style="color:var(--gold);">— Hanif Maulana Ibrohim</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VISION ===== -->
+    <section class="section-vision" id="vision">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Vision</span>
+                <h2 class="section-title">
+                    Looking <span class="gold">Ahead</span>
+                </h2>
+            </div>
+            <div class="vision-content">
+                <p>
+                    PHANEAR terus berkembang sebagai platform yang terbuka terhadap inovasi,
+                    kolaborasi, dan peluang baru. Kami percaya bahwa masa depan dibangun oleh
+                    mereka yang berani memulai hari ini.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ROADMAP (What's Next) ===== -->
+    <section class="section-roadmap" id="roadmap">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">What's Next</span>
+                <h2 class="section-title">
+                    Roadmap <span class="gold">Pengembangan</span>
+                </h2>
+                <p class="section-sub mx-auto">
+                    Perjalanan PHANEAR terus bergerak maju. Inilah langkah-langkah kami
+                    ke depan.
+                </p>
+            </div>
+            <div class="roadmap-grid">
+                <div class="roadmap-item">
+                    <span class="step">Fase 1</span>
+                    <h4>Ekosistem Digital</h4>
+                    <p>Peluncuran seluruh subdomain dan integrasi antar unit bisnis dalam satu identitas.</p>
+                    <span class="status">✓ Selesai</span>
+                </div>
+                <div class="roadmap-item">
+                    <span class="step">Fase 2</span>
+                    <h4>Ekspansi &amp; Kolaborasi</h4>
+                    <p>Membuka kemitraan strategis dengan brand dan kreator untuk memperluas jangkauan.</p>
+                    <span class="status">● Berjalan</span>
+                </div>
+                <div class="roadmap-item">
+                    <span class="step">Fase 3</span>
+                    <h4>PHANEAR Studio</h4>
+                    <p>Ruang produksi konten dan kreatif untuk mendukung ekosistem media dan fashion.</p>
+                    <span class="status">○ Mendatang</span>
+                </div>
+                <div class="roadmap-item">
+                    <span class="step">Fase 4</span>
+                    <h4>Global Reach</h4>
+                    <p>Memperluas pasar internasional untuk Charnesia dan PHANEAR Clothing.</p>
+                    <span class="status">○ Mendatang</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section-cta" id="cta">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Ready to <span class="gold">Explore?</span></h2>
+                <p>
+                    Temukan lebih banyak tentang PHANEAR dan seluruh ekosistem bisnis
+                    yang sedang kami bangun.
+                </p>
+                <div class="btn-group">
+                    <a href="#ecosystem" class="btn-primary">Explore Now →</a>
+                    <a href="#hero" class="btn-outline">Kembali ke Atas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">PHANEAR</div>
+                    <p>Building Ideas. Creating Value.</p>
+                </div>
+                <div class="footer-tagline">
+                    “We're not chasing trends. <span class="gold">We're building legacy.</span>”
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-bottom">
+                <span>
+                    Founded &amp; Owned by Hanif Maulana Ibrohim
+                </span>
+                <span>
+                    © 2026 PHANEAR. All rights reserved.
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ---- Hero text animation ----
+        const heroAnim = document.getElementById('heroAnim');
+        const phrases = ['Built Different.', 'Built to Last.', 'Built by PHANEAR.'];
+        let idx = 0;
+
+        function cycleText() {
+            heroAnim.style.opacity = '0';
+            heroAnim.style.transform = 'translateY(8px)';
+            setTimeout(() => {
+                heroAnim.textContent = phrases[idx];
+                heroAnim.style.opacity = '1';
+                heroAnim.style.transform = 'translateY(0)';
+                idx = (idx + 1) % phrases.length;
+            }, 300);
+        }
+
+        // initial
+        heroAnim.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        heroAnim.style.opacity = '1';
+        heroAnim.style.transform = 'translateY(0)';
+        setInterval(cycleText, 2800);
+
+        // ---- Mobile menu toggle ----
+        const toggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        toggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // close menu on link click (mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // ---- Navbar scroll shadow ----
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.40)';
+                navbar.style.borderBottomColor = 'rgba(255,255,255,0.06)';
+            } else {
+                navbar.style.boxShadow = 'none';
+                navbar.style.borderBottomColor = 'rgba(255,255,255,0.04)';
+            }
+        });
+
+        // ---- Smooth anchor scroll (optional polyfill for Safari) ----
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
